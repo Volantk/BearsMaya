@@ -1,7 +1,11 @@
+import maya.cmds as mayac
+
 def Get(attr, transform):
-    return cmds.getAttr(str("%s."+attr) % transform)
+    return mayac.getAttr(str("%s."+attr) % transform)
     
-# NOT WORKING
-def Set(attr, transform, value):
-    return cmds.setAttr(str("%s."+attr) % transform, type="float3", *value)    
+def SetVector(attr, transform, value):
+    return mayac.setAttr(str("%s."+attr) % transform, type="float3", *value)    
+
+def SetFloat(attr, transform, value):
+    return mayac.setAttr(str("%s."+attr) % transform, value, type="float")    
     
