@@ -6,11 +6,10 @@ def AlignPositionRotation():
        return
        
     destinationObj = selection[0]
-    toBeAlignedObj = selection[1:]
-    
+
     pos = cmds.xform(destinationObj, q=True, t=True)
     rot = cmds.xform(destinationObj, q=True, ro=True)
        
-    cmds.xform(toBeAlignedObj, ws=True, t=pos, ro=rot)
+    cmds.xform(selection[1:], ws=True, t=pos, ro=rot)
     
 AlignPositionRotation()
