@@ -1,8 +1,8 @@
 import maya.cmds
 
 def DoIt():
-    controlHierarchyPrefix = "CONTROL_"
-    root = "root"
+    controlHierarchyPrefix = "RIG_"
+    root = "rig"
 
     maya.cmds.select(root, hi=True)
     allChildren = maya.cmds.ls(selection=True)
@@ -14,7 +14,7 @@ def DoIt():
         allChildren.remove(const)
 
     for child in allChildren:
-        controlTwin = controlHierarchyPrefix+child
+        controlTwin = controlHierarchyPrefix+child.replace("EXPFBXASC045", "")
         if len(maya.cmds.ls(controlTwin)) == 0:
             print("Couldn't find control twin for " + child + " (" + controlTwin + ")")
             continue

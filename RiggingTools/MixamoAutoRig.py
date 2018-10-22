@@ -1,9 +1,11 @@
 import maya.cmds
 import MayaAutoControlRig
 
-from Bears import MayaUtils
+from BearsMaya import MayaUtils
 
 def MapHierarchyRecursivelyFrom(node, orderedHierarchyDict, level):
+    
+    orderedHierarchyDict = {}
     level += 1
     relatives = maya.cmds.listRelatives(node)
     if(node not in orderedHierarchyDict.keys()):
@@ -11,57 +13,57 @@ def MapHierarchyRecursivelyFrom(node, orderedHierarchyDict, level):
     if relatives != [] and relatives is not None:
         for relative in relatives:
             MapHierarchyRecursivelyFrom(relative, orderedHierarchyDict, level)
-
-    
+    return orderedHierarchyDict
+       
 def DoIt():
-    controls = ["global_CTRL", "Head_CTRL", "LeftArm_FK_CTRL", "LeftFoot_FK_CTRL", "LeftFoot_IK_CTRL",
-                "LeftForeArm_FK_CTRL", "LeftForeArm_IK_CTRL", "LeftHand_FK_CTRL", "LeftHand_IK_CTRL",
-                "LeftHandIndex1_CTRL", "LeftHandIndex2_CTRL", "LeftHandIndex3_CTRL", "LeftHandMiddle1_CTRL",
-                "LeftHandMiddle2_CTRL", "LeftHandMiddle3_CTRL", "LeftHandPinky1_CTRL", "LeftHandPinky2_CTRL",
-                "LeftHandPinky3_CTRL", "LeftHandRing1_CTRL", "LeftHandRing2_CTRL", "LeftHandRing3_CTRL",
-                "LeftHandThumb1_CTRL", "LeftHandThumb2_CTRL", "LeftHandThumb3_CTRL", "LeftLeg_FK_CTRL",
-                "LeftLeg_IK_CTRL", "LeftShoulder_CTRL", "LeftToeBase_FK_CTRL", "LeftUpLeg_FK_CTRL", "Neck_CTRL",
-                "RightArm_FK_CTRL", "RightFoot_FK_CTRL", "RightFoot_IK_CTRL", "RightForeArm_FK_CTRL",
-                "RightForeArm_IK_CTRL", "RightHand_FK_CTRL", "RightHand_IK_CTRL", "RightHandIndex1_CTRL",
-                "RightHandIndex2_CTRL", "RightHandIndex3_CTRL", "RightHandMiddle1_CTRL", "RightHandMiddle2_CTRL",
-                "RightHandMiddle3_CTRL", "RightHandPinky1_CTRL", "RightHandPinky2_CTRL", "RightHandPinky3_CTRL",
-                "RightHandRing1_CTRL", "RightHandRing2_CTRL", "RightHandRing3_CTRL", "RightHandThumb1_CTRL",
-                "RightHandThumb2_CTRL", "RightHandThumb3_CTRL", "RightLeg_FK_CTRL", "RightLeg_IK_CTRL",
-                "RightShoulder_CTRL", "RightToeBase_FK_CTRL", "RightUpLeg_FK_CTRL", "Root_CTRL", "Spine1_CTRL",
-                "Spine2_CTRL", "Spine_CTRL"]
+    exportBoneKey = "$EXPORTPREFIX$"
+    bindBoneKey = "$BINDPREFIX$"
+    ctrlSuffixKey = "$CTRLNAME$"
 
-    constraintMapping = {u'ORGFBXASC045toeFBXASC046L': [u'Bind_LeftToeBase'], u'ORGFBXASC045upper_armFBXASC046L': [u'Bind_LeftArm'], u'ORGFBXASC045f_ringFBXASC04602FBXASC046R': [u'Bind_RightHandRing2'], u'ORGFBXASC045f_indexFBXASC04602FBXASC046R': [u'Bind_RightHandIndex2'], u'ORGFBXASC045f_pinkyFBXASC04601FBXASC046L': [u'Bind_LeftHandPinky1'], u'ORGFBXASC045hips': [u'Bind_Hips'], u'ORGFBXASC045shinFBXASC046R': [u'Bind_RightLeg'], u'ORGFBXASC045f_pinkyFBXASC04603FBXASC046L': [u'Bind_LeftHandPinky3'], u'ORGFBXASC045f_indexFBXASC04602FBXASC046L': [u'Bind_LeftHandIndex2'], u'ORGFBXASC045f_ringFBXASC04602FBXASC046L': [u'Bind_LeftHandRing2'], u'ORGFBXASC045toeFBXASC046R': [u'Bind_RightToeBase'], u'ORGFBXASC045upper_armFBXASC046R': [u'Bind_RightArm'], u'ORGFBXASC045footFBXASC046L': [u'Bind_LeftFoot'], u'ORGFBXASC045f_pinkyFBXASC04602FBXASC046R': [u'Bind_RightHandPinky2'], u'ORGFBXASC045footFBXASC046R': [u'Bind_RightFoot'], u'ORGFBXASC045f_pinkyFBXASC04603FBXASC046R': [u'Bind_RightHandPinky3'], u'ORGFBXASC045thumbFBXASC04603FBXASC046L': [u'Bind_LeftHandThumb3'], u'ORGFBXASC045f_indexFBXASC04603FBXASC046L': [u'Bind_LeftHandIndex3'], u'ORGFBXASC045f_middleFBXASC04601FBXASC046R': [u'Bind_RightHandMiddle1'], u'ORGFBXASC045f_ringFBXASC04603FBXASC046L': [u'Bind_LeftHandRing3'], u'ORGFBXASC045spine': [u'Bind_Spine'], u'ORGFBXASC045head': [u'Bind_Head'], u'ORGFBXASC045f_middleFBXASC04601FBXASC046L': [u'Bind_LeftHandMiddle1'], u'ORGFBXASC045f_ringFBXASC04603FBXASC046R': [u'Bind_RightHandRing3'], u'ORGFBXASC045f_indexFBXASC04603FBXASC046R': [u'Bind_RightHandIndex3'], u'ATTACHFBXASC045head': [u'Bind_Head'], u'ORGFBXASC045thumbFBXASC04601FBXASC046L': [u'Bind_LeftHandThumb1'], u'ORGFBXASC045f_pinkyFBXASC04602FBXASC046L': [u'Bind_LeftHandPinky2'], u'ORGFBXASC045thighFBXASC046R': [u'Bind_RightUpLeg'], u'ORGFBXASC045neck': [u'Bind_Neck'], u'ORGFBXASC045shoulderFBXASC046L': [u'Bind_LeftShoulder'], u'ORGFBXASC045f_indexFBXASC04601FBXASC046R': [u'Bind_RightHandIndex1'], u'ORGFBXASC045chest': [u'Bind_Spine1'], u'ORGFBXASC045f_ringFBXASC04601FBXASC046R': [u'Bind_RightHandRing1'], u'ORGFBXASC045handFBXASC046R': [u'Bind_RightHand'], u'ORGFBXASC045f_middleFBXASC04603FBXASC046R': [u'Bind_RightHandMiddle3'], u'ORGFBXASC045f_middleFBXASC04603FBXASC046L': [u'Bind_LeftHandMiddle3'], u'ORGFBXASC045forearmFBXASC046R': [u'Bind_RightForeArm'], u'ORGFBXASC045handFBXASC046L': [u'Bind_LeftHand'], u'ORGFBXASC045f_ringFBXASC04601FBXASC046L': [u'Bind_LeftHandRing1'], u'ORGFBXASC045f_indexFBXASC04601FBXASC046L': [u'Bind_LeftHandIndex1'], u'ORGFBXASC045shoulderFBXASC046R': [u'Bind_RightShoulder'], u'ORGFBXASC045thighFBXASC046L': [u'Bind_LeftUpLeg'], u'ORGFBXASC045thumbFBXASC04601FBXASC046R': [u'Bind_RightHandThumb1'], u'ORGFBXASC045thumbFBXASC04603FBXASC046R': [u'Bind_RightHandThumb3'], u'ORGFBXASC045thumbFBXASC04602FBXASC046L': [u'Bind_LeftHandThumb2'], u'ORGFBXASC045forearmFBXASC046L': [u'Bind_LeftForeArm'], u'ORGFBXASC045f_middleFBXASC04602FBXASC046R': [u'Bind_RightHandMiddle2'], u'ORGFBXASC045f_middleFBXASC04602FBXASC046L': [u'Bind_LeftHandMiddle2'], u'ORGFBXASC045thumbFBXASC04602FBXASC046R': [u'Bind_RightHandThumb2'], u'ORGFBXASC045shinFBXASC046L': [u'Bind_LeftLeg'], u'ORGFBXASC045f_pinkyFBXASC04601FBXASC046R': [u'Bind_RightHandPinky1']}
+    controls = ["global_$CTRLNAME$", "Head_$CTRLNAME$", "LeftArm_FK_$CTRLNAME$", "LeftFoot_FK_$CTRLNAME$", "LeftFoot_IK_$CTRLNAME$", "LeftForeArm_FK_$CTRLNAME$", "LeftForeArm_IK_$CTRLNAME$", "LeftHand_FK_$CTRLNAME$", "LeftHand_IK_$CTRLNAME$", "LeftHandIndex1_$CTRLNAME$", "LeftHandIndex2_$CTRLNAME$", "LeftHandIndex3_$CTRLNAME$", "LeftHandMiddle1_$CTRLNAME$", "LeftHandMiddle2_$CTRLNAME$", "LeftHandMiddle3_$CTRLNAME$", "LeftHandPinky1_$CTRLNAME$", "LeftHandPinky2_$CTRLNAME$", "LeftHandPinky3_$CTRLNAME$", "LeftHandRing1_$CTRLNAME$", "LeftHandRing2_$CTRLNAME$", "LeftHandRing3_$CTRLNAME$", "LeftHandThumb1_$CTRLNAME$", "LeftHandThumb2_$CTRLNAME$", "LeftHandThumb3_$CTRLNAME$", "LeftLeg_FK_$CTRLNAME$", "LeftLeg_IK_$CTRLNAME$", "LeftShoulder_$CTRLNAME$", "LeftToeBase_FK_$CTRLNAME$", "LeftUpLeg_FK_$CTRLNAME$", "Neck_$CTRLNAME$", "RightArm_FK_$CTRLNAME$", "RightFoot_FK_$CTRLNAME$", "RightFoot_IK_$CTRLNAME$", "RightForeArm_FK_$CTRLNAME$", "RightForeArm_IK_$CTRLNAME$", "RightHand_FK_$CTRLNAME$", "RightHand_IK_$CTRLNAME$", "RightHandIndex1_$CTRLNAME$", "RightHandIndex2_$CTRLNAME$", "RightHandIndex3_$CTRLNAME$", "RightHandMiddle1_$CTRLNAME$", "RightHandMiddle2_$CTRLNAME$", "RightHandMiddle3_$CTRLNAME$", "RightHandPinky1_$CTRLNAME$", "RightHandPinky2_$CTRLNAME$", "RightHandPinky3_$CTRLNAME$", "RightHandRing1_$CTRLNAME$", "RightHandRing2_$CTRLNAME$", "RightHandRing3_$CTRLNAME$", "RightHandThumb1_$CTRLNAME$", "RightHandThumb2_$CTRLNAME$", "RightHandThumb3_$CTRLNAME$", "RightLeg_FK_$CTRLNAME$", "RightLeg_IK_$CTRLNAME$", "RightShoulder_$CTRLNAME$", "RightToeBase_FK_$CTRLNAME$", "RightUpLeg_FK_$CTRLNAME$", "Root_$CTRLNAME$", "Spine1_$CTRLNAME$", "Spine2_$CTRLNAME$", "Spine_$CTRLNAME$"]
+    constraintMapping = {u'$EXPORTPREFIX$FBXASC045toeFBXASC046L': [u'$BINDPREFIX$LeftToeBase'], u'$EXPORTPREFIX$FBXASC045upper_armFBXASC046L': [u'$BINDPREFIX$LeftArm'], u'$EXPORTPREFIX$FBXASC045f_ringFBXASC04602FBXASC046R': [u'$BINDPREFIX$RightHandRing2'], u'$EXPORTPREFIX$FBXASC045f_indexFBXASC04602FBXASC046R': [u'$BINDPREFIX$RightHandIndex2'], u'$EXPORTPREFIX$FBXASC045f_pinkyFBXASC04601FBXASC046L': [u'$BINDPREFIX$LeftHandPinky1'], u'$EXPORTPREFIX$FBXASC045hips': [u'$BINDPREFIX$Hips'], u'$EXPORTPREFIX$FBXASC045shinFBXASC046R': [u'$BINDPREFIX$RightLeg'], u'$EXPORTPREFIX$FBXASC045f_pinkyFBXASC04603FBXASC046L': [u'$BINDPREFIX$LeftHandPinky3'], u'$EXPORTPREFIX$FBXASC045f_indexFBXASC04602FBXASC046L': [u'$BINDPREFIX$LeftHandIndex2'], u'$EXPORTPREFIX$FBXASC045f_ringFBXASC04602FBXASC046L': [u'$BINDPREFIX$LeftHandRing2'], u'$EXPORTPREFIX$FBXASC045toeFBXASC046R': [u'$BINDPREFIX$RightToeBase'], u'$EXPORTPREFIX$FBXASC045upper_armFBXASC046R': [u'$BINDPREFIX$RightArm'], u'$EXPORTPREFIX$FBXASC045footFBXASC046L': [u'$BINDPREFIX$LeftFoot'], u'$EXPORTPREFIX$FBXASC045f_pinkyFBXASC04602FBXASC046R': [u'$BINDPREFIX$RightHandPinky2'], u'$EXPORTPREFIX$FBXASC045footFBXASC046R': [u'$BINDPREFIX$RightFoot'], u'$EXPORTPREFIX$FBXASC045f_pinkyFBXASC04603FBXASC046R': [u'$BINDPREFIX$RightHandPinky3'], u'$EXPORTPREFIX$FBXASC045thumbFBXASC04603FBXASC046L': [u'$BINDPREFIX$LeftHandThumb3'], u'$EXPORTPREFIX$FBXASC045f_indexFBXASC04603FBXASC046L': [u'$BINDPREFIX$LeftHandIndex3'], u'$EXPORTPREFIX$FBXASC045f_middleFBXASC04601FBXASC046R': [u'$BINDPREFIX$RightHandMiddle1'], u'$EXPORTPREFIX$FBXASC045f_ringFBXASC04603FBXASC046L': [u'$BINDPREFIX$LeftHandRing3'], u'$EXPORTPREFIX$FBXASC045spine': [u'$BINDPREFIX$Spine'], u'$EXPORTPREFIX$FBXASC045head': [u'$BINDPREFIX$Head'], u'$EXPORTPREFIX$FBXASC045f_middleFBXASC04601FBXASC046L': [u'$BINDPREFIX$LeftHandMiddle1'], u'$EXPORTPREFIX$FBXASC045f_ringFBXASC04603FBXASC046R': [u'$BINDPREFIX$RightHandRing3'], u'$EXPORTPREFIX$FBXASC045f_indexFBXASC04603FBXASC046R': [u'$BINDPREFIX$RightHandIndex3'], u'ATTACHFBXASC045head': [u'$BINDPREFIX$Head'], u'$EXPORTPREFIX$FBXASC045thumbFBXASC04601FBXASC046L': [u'$BINDPREFIX$LeftHandThumb1'], u'$EXPORTPREFIX$FBXASC045f_pinkyFBXASC04602FBXASC046L': [u'$BINDPREFIX$LeftHandPinky2'], u'$EXPORTPREFIX$FBXASC045thighFBXASC046R': [u'$BINDPREFIX$RightUpLeg'], u'$EXPORTPREFIX$FBXASC045neck': [u'$BINDPREFIX$Neck'], u'$EXPORTPREFIX$FBXASC045shoulderFBXASC046L': [u'$BINDPREFIX$LeftShoulder'], u'$EXPORTPREFIX$FBXASC045f_indexFBXASC04601FBXASC046R': [u'$BINDPREFIX$RightHandIndex1'], u'$EXPORTPREFIX$FBXASC045chest': [u'$BINDPREFIX$Spine1'], u'$EXPORTPREFIX$FBXASC045f_ringFBXASC04601FBXASC046R': [u'$BINDPREFIX$RightHandRing1'], u'$EXPORTPREFIX$FBXASC045handFBXASC046R': [u'$BINDPREFIX$RightHand'], u'$EXPORTPREFIX$FBXASC045f_middleFBXASC04603FBXASC046R': [u'$BINDPREFIX$RightHandMiddle3'], u'$EXPORTPREFIX$FBXASC045f_middleFBXASC04603FBXASC046L': [u'$BINDPREFIX$LeftHandMiddle3'], u'$EXPORTPREFIX$FBXASC045forearmFBXASC046R': [u'$BINDPREFIX$RightForeArm'], u'$EXPORTPREFIX$FBXASC045handFBXASC046L': [u'$BINDPREFIX$LeftHand'], u'$EXPORTPREFIX$FBXASC045f_ringFBXASC04601FBXASC046L': [u'$BINDPREFIX$LeftHandRing1'], u'$EXPORTPREFIX$FBXASC045f_indexFBXASC04601FBXASC046L': [u'$BINDPREFIX$LeftHandIndex1'], u'$EXPORTPREFIX$FBXASC045shoulderFBXASC046R': [u'$BINDPREFIX$RightShoulder'], u'$EXPORTPREFIX$FBXASC045thighFBXASC046L': [u'$BINDPREFIX$LeftUpLeg'], u'$EXPORTPREFIX$FBXASC045thumbFBXASC04601FBXASC046R': [u'$BINDPREFIX$RightHandThumb1'], u'$EXPORTPREFIX$FBXASC045thumbFBXASC04603FBXASC046R': [u'$BINDPREFIX$RightHandThumb3'], u'$EXPORTPREFIX$FBXASC045thumbFBXASC04602FBXASC046L': [u'$BINDPREFIX$LeftHandThumb2'], u'$EXPORTPREFIX$FBXASC045forearmFBXASC046L': [u'$BINDPREFIX$LeftForeArm'], u'$EXPORTPREFIX$FBXASC045f_middleFBXASC04602FBXASC046R': [u'$BINDPREFIX$RightHandMiddle2'], u'$EXPORTPREFIX$FBXASC045f_middleFBXASC04602FBXASC046L': [u'$BINDPREFIX$LeftHandMiddle2'], u'$EXPORTPREFIX$FBXASC045thumbFBXASC04602FBXASC046R': [u'$BINDPREFIX$RightHandThumb2'], u'$EXPORTPREFIX$FBXASC045shinFBXASC046L': [u'$BINDPREFIX$LeftLeg'], u'$EXPORTPREFIX$FBXASC045f_pinkyFBXASC04601FBXASC046R': [u'$BINDPREFIX$RightHandPinky1']}
 
+    controlName = "CTRL"
+    exportBonePrefix = "EXP"
+    bindBonePrefix = "Bind_"
+    
+    for i in range(0,len(controls)):
+        controls[i] = controls[i].replace(ctrlSuffixKey, controlName)
+    
+    for key in constraintMapping:
+        newKey = key.replace(exportBoneKey, exportBonePrefix)
+        constraintMapping[newKey] = constraintMapping.pop(key)
+    
+
+    for key in constraintMapping:
+        constraintMapping[key][0] = constraintMapping[key][0].replace(bindBoneKey, bindBonePrefix)
+
+    print(constraintMapping)
+#    return
     maya.cmds.currentUnit(l="m")
 
     root = "root"
 
-    orderedHierarchy = {}
-    MapHierarchyRecursivelyFrom(root, orderedHierarchy, -1)
+
     
-    # setScl(root, (1,1,1))
     maya.cmds.select("root", hi=True)
-    allJoints = maya.cmds.ls(selection=True)
+    allJoints = [j for j in maya.cmds.ls(selection=True) if "Constraint" not in j]
     
     handJoints = []
     for j in allJoints:
-        if "Constraint" in j:
-            continue
         SetFloat("visibility", j, 1.0)
-        if "palm" in str(j):
+        SetFloat("radius", j, 1.0)
+        if "hand" in str(j):
             maya.cmds.select(j, hi=True)
             handJoints += (maya.cmds.ls(selection=True))
-    
-    # set joint sizes
-    for j in allJoints:
-        if "Constraint" in j:
-            continue
-        SetFloat("radius", j, 1.0)
+            SetFloat("radius", j, 0.5)
     
     for j in handJoints:
-        if "Constraint" in j:
-            continue
         SetFloat("radius", j, 0.5)
+        
+
+    orderedHierarchy = {}
+    MapHierarchyRecursivelyFrom(root, orderedHierarchy, -1)
     
     sortedConstraintMapping = []
     for i in range(0,15):
@@ -72,17 +74,16 @@ def DoIt():
                     sortedConstraintMapping.append([joint, constraintMapping[joint]])
                 except:
                     pass
-                    #print(joint)
-            
-#    print(sortedConstraintMapping)
 
     controlRigExists = False
     try:
+        print("yes")
         # SETUP POSITIONS
         for i in range(len(sortedConstraintMapping)):
             toJoint = sortedConstraintMapping[i][0]
             fromJoint = str(sortedConstraintMapping[i][1]).replace("[u'","").replace("']","")
             fromJoint = fromJoint.replace("Bind_", "mixamorig:")
+            print(fromJoint, toJoint)
 
             op = GetJointPosition(toJoint)
 
@@ -91,12 +92,13 @@ def DoIt():
         controlRigExists = True
 
         maya.cmds.select("root", hi=True)
+        
+    print(controlRigExists)
 
     if not controlRigExists:
+        # IF RIG DOESN'T EXIST, SHOW UI FOR MAKING IT!
         MayaAutoControlRig.UI.Main_UI.MIXAMO_AutoControlRig_UI()
         return
-
-    # IF RIG EXISTS:
 
     # SETUP CONSTRAINTS
     for i in range(len(sortedConstraintMapping)):
@@ -107,6 +109,7 @@ def DoIt():
 
         if constraint is None:
             constraint = SetupParentConstraint(rigJoint, blenderJoint)
+            print("constrained " + rigJoint + " " + blenderJoint)
         else:
             print("Found existing constraint on " + PrettyFBXName(blenderJoint))
             
@@ -125,7 +128,7 @@ def DoIt():
             pos = maya.cmds.xform(clst[1], q=True, ws=True, rp=True)
             maya.cmds.scale(100, 100, 100, r=True, pivot=pos)
             
-            maya.cmds.delete(clst[1])
+           # maya.cmds.delete(clst[1])
         elif "shoulder" in controlName:
             print(controlName + " is shoulder")
         elif "fk" in controlName:

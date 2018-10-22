@@ -1,4 +1,4 @@
-print("__init__.py for Bears")
+print("__init__.py for BearsMaya")
 try:
 	import MayaUtils
 	import RiggingTools
