@@ -144,11 +144,11 @@ def do_it():
 
         maya.cmds.select(original_selection)
         mesh = maya.cmds.ls(selection=True)[0]
-        maya.cmds.setAttr("Mesh_%sShape.displayColor" % mesh, True)
+        # maya.cmds.setAttr("Mesh_%sShape.displayColor" % mesh, True)
 
         deformer_name = maya.cmds.ls("skinCluster*")[0]
 
-        print("Fixing mesh scale", mesh, deformer_name)
+        # print("Fixing mesh scale", mesh, deformer_name)
     # SkinningTools.fix_skinned_mesh_scale(rig_parent, root, mesh, deformer_name)
 
     maya.cmds.select("root", hi=True)
@@ -370,6 +370,9 @@ def do_it():
     maya.cmds.setAttr("%s.visibility" % lr, False)
 
     # TODO: Set up interaction bones!
+    # TODO: Hide (or delete?) clusters created when scaling controls
+    # TODO: Fix shoulder controls. Need to be scaled down by 0.01 on local UP axis, then scaled by 100 on all local axes
+    # TODO: Set up nicer colors for generated layers
 
     maya.cmds.select(original_selection)
 
